@@ -108,17 +108,17 @@ func main() {
     // is also not a valid drawingType
     //-------------------------------------------------------------------------
     fmt.Print("\n\n\n");
-    dt,ok = (ex.Try( 
+    dt,ok = interface{}(
+        ex.Try( 
+            func() any { 
+                return validateType(6)  //<- causes a different panic
+            }, 
 
-        func() any { 
-            return validateType(6)  //<- causes a different panic
-        }, 
-
-        ex.TryOpts{ 
-            Default: DRAWABLE_CIRCLE,  // <- will be returned if a panic happened 
-        },
-
-    )).(drawableType)
+            ex.TryOpts{ 
+                Default: DRAWABLE_CIRCLE,  // <- will be returned if a panic happened 
+            },
+        ),
+    ).(drawableType)
 
     fmt.Println("\nGot drawable type: ", dt, ok)
 
